@@ -39,7 +39,9 @@
         36
         60
         ```
-    -
+    - Load address of subroutine `Mult2Print` into register `R1`. Load integer `10` into register `R0`. Call register `R1` containing `Mult2Print` subroutine. Load integer `15` into register `R0`. Call register `R1` containing `Mult2Print` subroutine. Load integer `18` into register `R0`. Call register `R1` containing `Mult2Print` subroutine. Load integer `30` into register `R0`. Call register `R1` containing `Mult2Print` subroutine. Terminate program execution.
+        - Mult2Print subroutine
+            - ADD register to itself and store sum in same register. Print value in register. Return.
 
 [ ] interrupts.ls8
     - *ASM code:*
@@ -59,7 +61,11 @@
             IRET
         ```
     - *Expected output:* sequence of "A"s, one per second.
-    -
+    - Load `interrupt vector` for IO (0xF8) into register `R0`. Load addrees of interrupt hanhler subroutine into register `R1`. Store value of register `R1` into register `R0`. Load integer value `1` into register `R5` to enable timer interrupts. Load subroutine `Loop` into register `R0`.
+        - Loop subroutine
+            - Jump to subroutine stored in register `R0`.
+        - Interrupt handler
+            - Load char `A` into register `R0`. Print alphanumeric character stored in register `R0`. Return from interrupt handler.
 
 [ ] keyboards.ls8
     - *ASM code:*
@@ -83,7 +89,11 @@
             IRET
         ```
     - *Expected output:* N/A
-    -
+    - Load interrupt vector for I1 (keyboard) (0xF9) into register `R0`. Load address of interrupt handler subroutine `IntHandler` into register `R1`. Store address of interrupt handler subroutine `IntHandler` into register `R0`. Load integer value `2` into register `R5` to enable keyboard interrupts. Load subroutine `Loop` into register `R0`. 
+        - Loop subroutine
+            - Jump to subroutine stored in register `R0`.
+        - Interrupt handler
+            - Load memory address of most recent key pressed `0xF4` into register `R0`. Load registerA, `R0` with the value at the memory address stored in register `R1`. Print alphanumeric character stored in register `R1`. Return from interrupt handler.
 
 [ ] mult.ls8
     - *ASM code*
@@ -182,7 +192,7 @@
         4
         5
         ```
-    -
+    - Final test
 
 [ ] stack.ls8
     - *ASM code:*
@@ -210,6 +220,7 @@
         4
         1
         ```
+    - Tests stack implementation
 
 [ ] stackoverflow.ls8
     - *ASM code:*
@@ -224,4 +235,4 @@
 	        JMP R3
         ```
     - *Expected output:* N/A
-    -
+    - Simulates a stack buffer overflow
